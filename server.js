@@ -41,7 +41,7 @@ app.use(
 
 app.use(passUserToView);
 
-//////////////////// ROUTES //////////////////////
+///////////////////////// ROUTES //////////////////////////
 
 app.get('/', (req, res) => {
   res.render('index.ejs', {
@@ -53,6 +53,10 @@ app.get('/', (req, res) => {
 
 app.use('/auth', authController);
 app.use('/listings', isSignedIn, listingController);
+
+app.get('/listings', (req, res) => {
+  res.send('Listing Index Page');
+});
 
 //////////////////// SERVER LISTENER //////////////////////
 
