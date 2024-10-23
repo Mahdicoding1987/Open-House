@@ -10,6 +10,8 @@ const path = require('path');
 
 //////////////////// CONTROLLERS //////////////////////
 
+const isSignedIn = require('./middleware/is-signed-in.js');
+const passUserToView = require('./middleware/pass-user-to-view.js');
 const authController = require('./controllers/auth.js');
 const listingController = require('./controllers/listings.js');
 
@@ -37,22 +39,20 @@ app.use(
   })
 );
 
+app.use(passUserToView);
+
+//////////////////// ROUTES //////////////////////
+
 app.get('/', (req, res) => {
   res.render('index.ejs', {
     user: req.session.user,
   });
 });
 
-app.get('/vip-lounge', (req, res) => {
-  if (req.session.user) {
-    res.send(`Welcome to the party ${req.session.user.username}.`);
-  } else {
-    res.send('Sorry, no guests allowed.');
-  }
-});
+//////////////////// ROUTES handler //////////////////////
 
 app.use('/auth', authController);
-app.use('/listings', listingController);
+app.use('/listings', isSignedIn, listingController);
 
 //////////////////// SERVER LISTENER //////////////////////
 
