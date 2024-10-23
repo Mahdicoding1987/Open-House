@@ -54,10 +54,6 @@ app.get('/', (req, res) => {
 app.use('/auth', authController);
 app.use('/listings', isSignedIn, listingController);
 
-app.get('/listings', (req, res) => {
-  res.send('Listing Index Page');
-});
-
 //////////////////// SERVER LISTENER //////////////////////
 
 app.listen(port, () => {
